@@ -2,13 +2,10 @@ package service.impl;
 
 import db.dao.DepartmentDao;
 import db.dao.impl.DepartmentDaoImpl;
-import db.dao.util.ConnectionManager;
 import db.entity.Department;
 import service.DepartmentService;
 import java.util.*;
 
-
-import java.sql.Connection;
 
 public class DepartmentServiceImpl implements DepartmentService {
 
@@ -29,6 +26,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void deleteDepartment(Long id) {
         departmentDao.deleteDepartment(id);
+    }
+
+    public void updateDepartment(int code, String name, Long id){
+        departmentDao.updateDepartment(code,name,id);
+    }
+
+    @Override
+    public Department getDepartmentById(Long id) {
+        return departmentDao.getDepartmentById(id);
     }
 
     public static void main(String[] args) {

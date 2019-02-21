@@ -34,16 +34,17 @@ public class DepartmentDaoImpl implements DepartmentDao {
     public static void main(String[] args) {
         DepartmentDaoImpl departmentDao = DepartmentDaoImpl.getInstance();
         Connection connection = ConnectionManager.getConnection();
-        System.out.println(departmentDao.findAllDepartment());
-        departmentDao.deleteDepartment( 6l);
-        System.out.println(departmentDao.findAllDepartment());
-        Department d = new Department();
-        d.setDepartmentName("rrr");
-        d.setDepartmentCode(13);
-        departmentDao.createDepartment(d);
-        System.out.println(departmentDao.findAllDepartment());
-        departmentDao.updateDepartment(8, "update", 7l);
-        System.out.println(departmentDao.findAllDepartment());
+//        System.out.println(departmentDao.findAllDepartment());
+//        departmentDao.deleteDepartment( 6l);
+//        System.out.println(departmentDao.findAllDepartment());
+//        Department d = new Department();
+//        d.setDepartmentName("rrr");
+//        d.setDepartmentCode(13);
+//        departmentDao.createDepartment(d);
+//        System.out.println(departmentDao.findAllDepartment());
+//        departmentDao.updateDepartment(8, "update", 7l);
+//        System.out.println(departmentDao.findAllDepartment());
+        System.out.println(departmentDao.getDepartmentById(1l));
         ConnectionManager.closeConnection(connection);
     }
 
@@ -107,5 +108,23 @@ public class DepartmentDaoImpl implements DepartmentDao {
         } catch (SQLException ex) {
             ex.getMessage();
         }
+    }
+
+    public Department getDepartmentById(Long id) {
+        Department d = new Department();
+
+        ResultSet resultSet = null;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.GET_DEPARTMENT_BY_ID)) {
+            preparedStatement.setLong(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                d.setId(id);
+                d.setDepartmentCode(resultSet.getInt(2));
+                d.setDepartmentName(resultSet.getString(3));
+            }
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+        return d;
     }
 }

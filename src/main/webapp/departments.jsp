@@ -37,13 +37,12 @@
             </td>
             <td>
                 <form method="get" action="/employeesList">
-                    <input type="hidden" name="Id" value="${item.id}"/>
+                    <input type="hidden" name="Id" value="${item.departmentCode}"/>
                     <input type="submit" class="btn btn-default" value="List employees"/>
                 </form>
             </td>
         </tr>
     </c:forEach>
-
     </thead>
 </table>
 <h2>Add department</h2>

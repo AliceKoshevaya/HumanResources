@@ -14,4 +14,6 @@ public interface DepartmentDao {
     void updateDepartment(int code, String name, Long id);
 
     public void deleteDepartment(Long id);
+
+    Department getDepartmentById(Long id);
 }

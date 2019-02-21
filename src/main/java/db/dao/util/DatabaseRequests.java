@@ -13,7 +13,8 @@ public class DatabaseRequests {
     public static final String INSERT_DEPARTMENT = "INSERT into department VALUES (DEFAULT,?,?)";
     public static final String DELETE_DEPARTMENT = "DELETE FROM department WHERE id=?";
     public static final String UPDATE_DEPARTMENT = "UPDATE department SET department_code =?, department_name =? WHERE id=?";
-    public static final String DELETE_EMPLOYEE = "DELETE FROM employees WHERE department_code=?";
+    public static final String GET_DEPARTMENT_BY_ID = "SELECT id, department_code, department_name FROM department WHERE id=?";
+    public static final String DELETE_EMPLOYEE = "DELETE FROM employees WHERE id=?";
     public static final String INSERT_EMPLOYEE = "INSERT into employees VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?)";
     public static final String UPDATE_EMPLOYEE = "UPDATE employees SET lastname =?, experience =?, address=?, telephone=?, email=? WHERE department_code=?";
 }

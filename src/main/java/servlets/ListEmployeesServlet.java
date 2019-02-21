@@ -25,6 +25,7 @@ public class ListEmployeesServlet extends HttpServlet {
         int id = Integer.parseInt(stringId);
         List<Employee> allEmployees = employeeService.allEmployee(id);
         request.setAttribute("employees", allEmployees);
+        request.setAttribute("idJob", id);
         RequestDispatcher dispatcher = request.getServletContext()
                 .getRequestDispatcher("/employeesList.jsp");
         dispatcher.forward(request, response);

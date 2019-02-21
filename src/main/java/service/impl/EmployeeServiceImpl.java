@@ -29,12 +29,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setDateOfBirthday(date);
         employee.setAddress(address);
         employee.setEmail(email);
-        //добавить поиск
         employeeDao.createEmployee(employee);
     }
 
-    public void updateEmployee(String lastName, int exp, String add, Long tel, String email,Long id){
-        employeeDao.updateEmployee(lastName,exp,add,tel,email,id);
+    public void updateEmployee(String name,String lastName, int exp, String add, Long tel, String email,Long id){
+        employeeDao.updateEmployee(name,lastName,exp,add,tel,email,id);
 
+    }
+
+    @Override
+    public Employee getEmployeeById(Long id) {
+        return employeeDao.getEmployeeById(id);
     }
 }

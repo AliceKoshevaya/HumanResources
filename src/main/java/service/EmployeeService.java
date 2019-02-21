@@ -15,5 +15,7 @@ public interface EmployeeService {
     public void addEmployee(String name, String lastName, String thirdName, int experience,
                             Sex sex, Date date,String address, String tel, String email, int depCode, int jobCode);
 
-    public void updateEmployee(String lastName, int exp, String add, Long tel, String email,Long id);
+    public void updateEmployee(String name, String lastName, int exp, String add, Long tel, String email,Long id);
+
+    Employee getEmployeeById(Long id);
 }

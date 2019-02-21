@@ -125,14 +125,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
         }
     }
 
-    public void updateEmployee(String lastName, int exp, String add, Long tel, String email,Long id) {
+    public void updateEmployee(String name,String lastName, int exp, String add, Long tel, String email,Long id) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.UPDATE_EMPLOYEE)) {
-            preparedStatement.setString(1, lastName);
-            preparedStatement.setInt(2, exp);
-            preparedStatement.setString(3, add);
-            preparedStatement.setLong(4, tel);
-            preparedStatement.setString(5, email);
-            preparedStatement.setLong(6, id);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setInt(3, exp);
+            preparedStatement.setString(4, add);
+            preparedStatement.setLong(5, tel);
+            preparedStatement.setString(6, email);
+            preparedStatement.setLong(7, id);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             ex.getMessage();
@@ -170,5 +171,30 @@ public class EmployeeDaoImpl implements EmployeeDao {
             }
         }
         return id;
+    }
+
+    @Override
+    public Employee getEmployeeById(Long id) {
+        Employee e = new Employee();
+        ResultSet resultSet = null;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.SELECT_EMPLOYEE_BY_ID)) {
+            preparedStatement.setLong(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                e.setName(resultSet.getString(1));
+                e.setLastName(resultSet.getString(2));
+                e.setThirdName(resultSet.getString(3));
+                e.setExperience(resultSet.getInt(4));
+                e.setSex(Sex.valueOf(resultSet.getString(5)));
+                e.setDateOfBirthday(resultSet.getDate(6));
+                e.setAddress(resultSet.getString(7));
+                e.setTelephone(resultSet.getLong(8));
+                e.setEmail(resultSet.getString(9));
+                e.setId(id);
+            }
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+        return e;
     }
 }

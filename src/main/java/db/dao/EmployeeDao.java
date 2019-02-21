@@ -9,6 +9,7 @@ public interface EmployeeDao {
     List<Employee> findAllEmployees();
     List<Employee> findEmployeesByDepartment(int code);
     void deleteEmployee(Long id);
-    void updateEmployee(String lastName, int exp, String add, Long tel, String email,Long id);
+    void updateEmployee(String name, String lastName, int exp, String add, Long tel, String email,Long id);
     Long createEmployee(Employee employee);
+    Employee getEmployeeById(Long id);
 }

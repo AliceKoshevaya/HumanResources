@@ -3,9 +3,11 @@ servlets\AddDepartmentServlet.class
 servlets\EditEmployeeServlet.class
 db\dao\impl\DepartmentDaoImpl.class
 db\dao\impl\PostDaoImpl.class
+util\DepartmentValidator.class
 servlets\DeleteDepartmentServlet.class
 db\entity\Post$PostBuilder.class
 db\entity\Employee.class
+util\EmployeeValidator.class
 db\dao\impl\EmployeeDaoImpl.class
 db\dao\DepartmentDao.class
 db\dao\util\DatabaseRequests.class
@@ -16,6 +18,7 @@ servlets\AddEmployeeServlet.class
 db\entity\Department.class
 db\entity\Sex.class
 db\dao\EmployeeDao.class
+util\validator\FieldValidatorUtil.class
 db\entity\Department$DepartmentBuilder.class
 servlets\DeleteEmployeeServlet.class
 servlets\ListEmployeesServlet.class

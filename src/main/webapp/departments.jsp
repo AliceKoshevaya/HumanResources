@@ -45,6 +45,10 @@
     </c:forEach>
     </thead>
 </table>
+<c:if test="${not empty errorMessage}">
+    <c:out value="${errorMessage}"/>
+    <br>
+</c:if>
 <h2>Add department</h2>
 <form method="POST" action="/addDepartment">
     <input style="float: left;" type="text" name="DepName" placeholder="Enter department name"/>

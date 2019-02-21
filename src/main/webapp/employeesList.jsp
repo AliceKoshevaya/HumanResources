@@ -62,11 +62,16 @@
     <input style="float: left;" type="text" name="EmpLname" placeholder="Enter employee lastName"/>
     <input style="float: left;" type="text" name="EmpTname" placeholder="Enter employee thirdName"/>
     <input style="float: left;" type="text" name="EmpExp" placeholder="Enter employee experience"/>
-    <input style="float: left;" type="text" name="EmpSex" placeholder="Enter employee sex"/>
-    <input style="float: left;" type="text" name="EmpDob" placeholder="Enter employee Date of Birthday"/>
+    <input type="hidden" name="code" value="${idJob}"/>
+    <select name="EmpSex">
+        <option value="MAN">Man</option>
+        <option value="WOMAN">Woman</option>
+    </select>
+    <input style="float: left;" type="date" name="EmpDob" placeholder="Enter employee Date of Birthday"/>
     <input style="float: left;" type="text" name="EmpAdd" placeholder="Enter employee address"/>
     <input style="float: left;" type="text" name="EmpTel" placeholder="Enter employee telephone"/>
-    <input style="float: left;" type="text" name="EmpEmail" placeholder="Enter employee email"/>
+    <input style="float: left;" type="email" name="EmpEmail" placeholder="Enter employee email"/>
+    <input style="float: left;" type="text" name="jobCode" placeholder="Enter employee job code"/>
     <input style="float: left;" type="submit" class="btn btn-default"
            value="Add"/>
 </form>

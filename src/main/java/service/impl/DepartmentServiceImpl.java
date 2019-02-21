@@ -16,11 +16,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void addDepartment(int code, String name) {
+    public Long addDepartment(int code, String name) {
         Department department = new Department();
         department.setDepartmentCode(code);
         department.setDepartmentName(name);
-        departmentDao.createDepartment(department);
+        return departmentDao.createDepartment(department);
     }
 
     @Override

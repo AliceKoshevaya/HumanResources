@@ -2,6 +2,7 @@ package servlets;
 
 import service.DepartmentService;
 import service.impl.DepartmentServiceImpl;
+import util.DepartmentValidator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +23,14 @@ public class AddDepartmentServlet extends HttpServlet {
         String depName = request.getParameter("DepName");
         String depCode = request.getParameter("DepCode");
         int code = Integer.parseInt(depCode);
-        departmentService.addDepartment(code,depName);
-        response.sendRedirect("/");
+        String errorMessage = DepartmentValidator.validate(code, depName);
+        if (!errorMessage.isEmpty()) {
+            request.setAttribute("errorMessage", errorMessage);
+//            request.getRequestDispatcher("/").forward(request, response);
+        }else {
+            departmentService.addDepartment(code, depName);
+            response.sendRedirect("/");
+        }
 
 
     }

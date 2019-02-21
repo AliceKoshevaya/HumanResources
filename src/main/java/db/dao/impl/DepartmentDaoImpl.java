@@ -127,4 +127,25 @@ public class DepartmentDaoImpl implements DepartmentDao {
         }
         return d;
     }
+
+    @Override
+    public Department getDepartmentByCode(int code) {
+        Department d = null;
+        ResultSet resultSet = null;
+
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement(DatabaseRequests.SELECT_DEPARTMENT_BY_CODE)) {
+            preparedStatement.setInt(1, code);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                d = new Department();
+                d.setId(resultSet.getLong(1));
+                d.setDepartmentCode(code);
+                d.setDepartmentName(resultSet.getString(3));
+            }
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+        return d;
+    }
 }

@@ -7,4 +7,5 @@ import java.util.Collection;
 
 public interface PostDao {
     public Collection<Post> findAllPost();
+    Post getPostByCode(int code);
 }

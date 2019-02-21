@@ -34,6 +34,7 @@ public class PostDaoImpl implements PostDao {
     public static void main(String[] args) {
         PostDaoImpl postDao = PostDaoImpl.getInstance();
         System.out.println(postDao.findAllPost());
+        System.out.println(postDao.getPostByCode(20));
     }
 
     public List<Post> findAllPost() {
@@ -53,4 +54,26 @@ public class PostDaoImpl implements PostDao {
         }
         return postsList;
     }
+
+    @Override
+    public Post getPostByCode(int code) {
+        Post post = null;
+        ResultSet resultSet = null;
+
+        try (PreparedStatement preparedStatement =
+                     connection.prepareStatement(DatabaseRequests.SELECT_POST_BY_CODE)) {
+            preparedStatement.setInt(1, code);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                post = new Post();
+                post.setId(resultSet.getLong(1));
+                post.setJobCode(code);
+                post.setPostName(resultSet.getString(3));
+            }
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
+        return post;
+    }
+
 }

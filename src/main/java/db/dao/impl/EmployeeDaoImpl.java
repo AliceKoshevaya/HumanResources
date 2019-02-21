@@ -67,15 +67,16 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 employee.setId(resultSet.getLong(1));
                 employee.setName(resultSet.getString(2));
                 employee.setLastName(resultSet.getString(3));
-                employee.setExperience(resultSet.getInt(4));
-                employee.setSex(Sex.valueOf(resultSet.getString(5).toUpperCase()));
-                employee.setDateOfBirthday(resultSet.getDate(6));
-                employee.setAddress(resultSet.getString(7));
-                employee.setEmail(resultSet.getString(8));
+                employee.setThirdName(resultSet.getString(4));
+                employee.setExperience(resultSet.getInt(5));
+                employee.setSex(Sex.valueOf(resultSet.getString(6).toUpperCase()));
+                employee.setDateOfBirthday(resultSet.getDate(7));
+                employee.setAddress(resultSet.getString(8));
+                employee.setEmail(resultSet.getString(9));
 
-                post.setPostName(resultSet.getString(9));
+                post.setPostName(resultSet.getString(10));
 
-                department.setDepartmentName(resultSet.getString(10));
+                department.setDepartmentName(resultSet.getString(11));
                 employeeList.add(employee);
             }
         } catch (SQLException e) {
@@ -98,15 +99,16 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 employee.setId(resultSet.getLong(1));
                 employee.setName(resultSet.getString(2));
                 employee.setLastName(resultSet.getString(3));
-                employee.setExperience(resultSet.getInt(4));
-                employee.setSex(Sex.valueOf(resultSet.getString(5).toUpperCase()));
-                employee.setDateOfBirthday(resultSet.getDate(6));
-                employee.setAddress(resultSet.getString(7));
-                employee.setEmail(resultSet.getString(8));
+                employee.setThirdName(resultSet.getString(4));
+                employee.setExperience(resultSet.getInt(5));
+                employee.setSex(Sex.valueOf(resultSet.getString(6).toUpperCase()));
+                employee.setDateOfBirthday(resultSet.getDate(7));
+                employee.setAddress(resultSet.getString(8));
+                employee.setEmail(resultSet.getString(9));
 
-                post.setPostName(resultSet.getString(9));
+                post.setPostName(resultSet.getString(10));
 
-                department.setDepartmentName(resultSet.getString(10));
+                department.setDepartmentName(resultSet.getString(11));
 
                 employeeList.add(employee);
             }

@@ -71,7 +71,16 @@
     <input style="float: left;" type="text" name="EmpAdd" placeholder="Enter employee address"/>
     <input style="float: left;" type="text" name="EmpTel" placeholder="Enter employee telephone"/>
     <input style="float: left;" type="email" name="EmpEmail" placeholder="Enter employee email"/>
-    <input style="float: left;" type="text" name="jobCode" placeholder="Enter employee job code"/>
+    <select name="jobCode">
+        <option value="1">HR</option>
+        <option value="2">Java Developer</option>
+        <option value="3">Scala Developer</option>
+        <option value="4">Project manager</option>
+        <option value="5">SEO</option>
+        <option value="6">Tester</option>
+        <option value="7">Analyst</option>
+        <option value="8">Designer</option>
+    </select>
     <input style="float: left;" type="submit" class="btn btn-default"
            value="Add"/>
 </form>

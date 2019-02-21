@@ -37,6 +37,11 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentDao.getDepartmentById(id);
     }
 
+    @Override
+    public Department getDepartmentByCode(int code) {
+        return departmentDao.getDepartmentByCode(code);
+    }
+
     public static void main(String[] args) {
         DepartmentService ds = new DepartmentServiceImpl();
         System.out.println(ds.getAllDepartment());

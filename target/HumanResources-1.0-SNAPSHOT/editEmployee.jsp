@@ -13,7 +13,7 @@
 <p class="form-control"></p>
 <div class="container">
     <div class="row main-form">
-        <form method="get" action="${pageContext.request.contextPath}/editEmployee">
+        <form method="post" action="${pageContext.request.contextPath}/editEmployee">
             <input type="hidden" name="id" value="${emp.id}"/>
             <div class="form-group">
                 <label  class="cols-sm-2 control-label">Name</label>

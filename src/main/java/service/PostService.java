@@ -6,4 +6,6 @@ import java.util.Collection;
 
 public interface PostService {
     public Collection<Post> findAllPost();
+
+    Post getPostByCode(int code);
 }

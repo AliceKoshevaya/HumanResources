@@ -17,4 +17,9 @@ public class PostServiceImpl implements PostService {
         return postDao.findAllPost();
 
     }
+
+    @Override
+    public Post getPostByCode(int code) {
+        return postDao.getPostByCode(code);
+    }
 }

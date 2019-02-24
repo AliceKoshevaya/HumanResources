@@ -1,5 +1,6 @@
 package controller;
 
+import org.apache.commons.lang3.StringUtils;
 import service.DepartmentService;
 import service.impl.DepartmentServiceImpl;
 import util.DepartmentValidator;
@@ -22,8 +23,8 @@ public class AddDepartmentServlet extends HttpServlet {
             throws ServletException, IOException {
         String depName = request.getParameter("DepName");
         String depCode = request.getParameter("DepCode");
-        String errorMessage = DepartmentValidator.validate(depCode,depName);
-        if (!errorMessage.isEmpty()) {
+        String errorMessage = DepartmentValidator.validate(null, depCode, depName);
+        if (StringUtils.isNotBlank(errorMessage)) {
             request.setAttribute("errorMessage", errorMessage);
             request.setAttribute("dName", depName);
             request.setAttribute("dCode", depCode);
@@ -37,7 +38,6 @@ public class AddDepartmentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String depName = request.getParameter("DepName");
-        String depCode = request.getParameter("DepCode");
+        response.sendRedirect("/");
     }
 }

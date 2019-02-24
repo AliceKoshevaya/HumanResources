@@ -27,19 +27,9 @@ public class AddEmployeeServlet extends HttpServlet {
         String lastName = request.getParameter("EmpLname");
         String thirdName = request.getParameter("EmpTname");
         String sExp = request.getParameter("EmpExp");
-        int exp = Integer.parseInt(sExp);
         String sDob = request.getParameter("EmpDob");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        java.util.Date date = null;
-        try {
-            date = simpleDateFormat.parse(sDob);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         String address = request.getParameter("EmpAdd");
         String tel = request.getParameter("EmpTel");
-        Long telephone = Long.parseLong(tel);
         String ssex = request.getParameter("EmpSex");
         Sex sex = Sex.valueOf(ssex);
         String email = request.getParameter("EmpEmail");
@@ -47,11 +37,30 @@ public class AddEmployeeServlet extends HttpServlet {
         int depCode = Integer.parseInt(depCod);
         String job = request.getParameter("jobCode");
         int jobCode = Integer.parseInt(job);
-        String errorMessage = EmployeeValidator.validate(name,lastName,thirdName,exp,address,telephone,email);
+        String errorMessage = EmployeeValidator.validate(name,lastName,thirdName,sExp,address,tel,email);
         if (!errorMessage.isEmpty()) {
             request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("eName", name);
+            request.setAttribute("eLastName", lastName);
+            request.setAttribute("eThirdName", thirdName);
+            request.setAttribute("eExp", sExp);
+            request.setAttribute("eAddress", address);
+            request.setAttribute("eTelephone", tel);
+            request.setAttribute("eEmail", email);
             request.getRequestDispatcher("/employeesList?Id=" + depCod).forward(request, response);
         }else {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date date = null;
+            try {
+                if(sDob != null) {
+                    date = simpleDateFormat.parse(sDob);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            int exp = Integer.parseInt(sExp);
+            Long telephone = Long.parseLong(tel);
             employeeService.addEmployee(name, lastName, thirdName, exp, sex, sqlDate, address, telephone, email, depCode, jobCode);
             response.sendRedirect("/employeesList?Id=" + depCod);
         }

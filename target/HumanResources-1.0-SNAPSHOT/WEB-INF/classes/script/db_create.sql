@@ -1,17 +1,17 @@
+
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS post;
 
 CREATE TABLE post (
-  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  job_code INT,
+  job_code INT NOT NULL PRIMARY KEY,
   post_name VARCHAR(30),
   salary DOUBLE
 );
 
 CREATE TABLE department (
   id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  department_code INT,
+  department_code INT unique,
   department_name VARCHAR(30) unique
 );
 

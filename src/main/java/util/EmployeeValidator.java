@@ -1,13 +1,27 @@
 package util;
 
+import db.entity.Department;
+import db.entity.Employee;
+import service.EmployeeService;
+import service.impl.EmployeeServiceImpl;
 import util.validator.FieldValidatorUtil;
+
+import java.util.List;
 
 public class EmployeeValidator {
 
+    private static EmployeeService employeeService = new EmployeeServiceImpl();
     private static final String MESSAGE_VALID = "";
 
-    public static String validate(String name, String lastName, String thirdName, int exp, String address,
-                                  Long telephone,String email){
+    public static String validate(String name, String lastName, String thirdName, String exp, String address,
+                                  String telephone,String email){
+
+        List<Employee> employees = employeeService.getAllEmployees();
+        for (Employee employee : employees) {
+            if(employee.getEmail().equals(email)){
+                return "This email already exist";
+            }
+        }
         String nameErrorMessage = FieldValidatorUtil.validateName(name);
         if (!FieldValidatorUtil.MESSAGE_VALID.equals(nameErrorMessage)) {
             return nameErrorMessage;
@@ -20,7 +34,13 @@ public class EmployeeValidator {
         if (!FieldValidatorUtil.MESSAGE_VALID.equals(thirdNameErrorMessage)) {
             return thirdNameErrorMessage;
         }
-        String expErrorMessage = FieldValidatorUtil.validateExp(exp);
+        int experience;
+        try {
+            experience = Integer.parseInt(exp);
+        }catch (NumberFormatException ex){
+            return "Field experience contains only numbers";
+        }
+        String expErrorMessage = FieldValidatorUtil.validateExp(experience);
         if (!FieldValidatorUtil.MESSAGE_VALID.equals(expErrorMessage)) {
             return expErrorMessage;
         }
@@ -28,7 +48,13 @@ public class EmployeeValidator {
         if (!FieldValidatorUtil.MESSAGE_VALID.equals(addressErrorMessage)) {
             return addressErrorMessage;
         }
-        String telephoneErrorMessage = FieldValidatorUtil.validateTelephone(telephone);
+        Long telephon;
+        try {
+            telephon = Long.parseLong(telephone);
+        }catch (NumberFormatException ex){
+            return "Field telephone contains only numbers";
+        }
+        String telephoneErrorMessage = FieldValidatorUtil.validateTelephone(telephon);
         if (!FieldValidatorUtil.MESSAGE_VALID.equals(telephoneErrorMessage)) {
             return telephoneErrorMessage;
         }

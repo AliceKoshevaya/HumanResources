@@ -4,38 +4,32 @@ import db.entity.Department;
 import service.DepartmentService;
 import service.impl.DepartmentServiceImpl;
 import util.validator.FieldValidatorUtil;
-import java.util.*;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class DepartmentValidator {
 
-    private static DepartmentService departmentService = new DepartmentServiceImpl();
+    private static final String MESSAGE_THIS_DEPARTMENT_CODE_ALREADY_EXIST = "This department code already exist";
+    private static final String MESSAGE_THIS_DEPARTMENT_NAME_ALREADY_EXIST = "This department name already exist";
     private static final String MESSAGE_VALID = "";
+    private static DepartmentService departmentService = new DepartmentServiceImpl();
 
-    public static String validate(String code, String name){
-        int cod;
-        try {
-            cod = Integer.parseInt(code);
-        }catch (NumberFormatException ex){
-            return "Department code contains only numbers";
+    public static String validate(String id, String code, String name) {
+        String nameErrorMessage = FieldValidatorUtil.validateDepName(name);
+        String codeErrorMessage = FieldValidatorUtil.validateDepCode(code);
+        if(!nameErrorMessage.isEmpty() || !codeErrorMessage.isEmpty()){
+            return  nameErrorMessage + " " + codeErrorMessage;
         }
+        int cod = Integer.parseInt(code);
         List<Department> departments = departmentService.getAllDepartment();
         for (Department department : departments) {
-            if(department.getDepartmentCode() == cod){
-                return "This department code already exist";
-            }else if(department.getDepartmentName().equals(name)){
-                return "This department name already exist";
+            if (department.getDepartmentCode() == cod && Objects.nonNull(id) && !(department.getId()==Long.parseLong(id))) {
+                codeErrorMessage = MESSAGE_THIS_DEPARTMENT_CODE_ALREADY_EXIST;
+            } else if (Objects.equals(department.getDepartmentName(), (name)) && Objects.nonNull(id) && !(department.getId()==Long.parseLong(id))) {
+                return MESSAGE_THIS_DEPARTMENT_NAME_ALREADY_EXIST;
             }
         }
-        String codeErrorMessage = FieldValidatorUtil.validateDepCode(cod);
-        if (!FieldValidatorUtil.MESSAGE_VALID.equals(codeErrorMessage)) {
-            return codeErrorMessage;
-        }
-        String nameErrorMessage = FieldValidatorUtil.validateDepName(name);
-        if (!FieldValidatorUtil.MESSAGE_VALID.equals(nameErrorMessage)) {
-            return nameErrorMessage;
-        }
-        return MESSAGE_VALID;
+        return MESSAGE_VALID + nameErrorMessage + "\n" + codeErrorMessage;
     }
 }

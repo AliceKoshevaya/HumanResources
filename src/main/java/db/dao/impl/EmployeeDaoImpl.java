@@ -50,13 +50,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
 //        employeeDao.createEmployee(employee);
 ////        employeeDao.deleteEmployee(1l);
 //        employeeDao.updateEmployee("Martin",30,"London", 347537453847l, "lol@gmail.com", 2l);
-        List<Employee> employees = employeeDao.findEmployeesByDepartment(10);
-        for (Employee employee : employees) {
-            if(employee.getEmail().equals("alise888@gmail.com")){
-                System.out.println("No no no");
-            }
-        }
+//        List<Employee> employees = employeeDao.findEmployeesByDepartment(10);
+//        for (Employee employee : employees) {
+//            if(employee.getEmail().equals("alise888@gmail.com")){
+//                System.out.println("No no no");
+//            }
+//        }
 
+        System.out.println(employeeDao.findAllEmployees());
         ConnectionManager.closeConnection(connection);
     }
 
@@ -78,11 +79,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 employee.setSex(Sex.valueOf(resultSet.getString(6).toUpperCase()));
                 employee.setDateOfBirthday(resultSet.getDate(7));
                 employee.setAddress(resultSet.getString(8));
-                employee.setEmail(resultSet.getString(9));
+                employee.setTelephone(resultSet.getLong(9));
+                employee.setEmail(resultSet.getString(10));
 
-                post.setPostName(resultSet.getString(10));
+                post.setPostName(resultSet.getString(11));
 
-                department.setDepartmentName(resultSet.getString(11));
+                department.setDepartmentName(resultSet.getString(12));
                 employeeList.add(employee);
             }
         } catch (SQLException e) {
@@ -111,11 +113,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 employee.setSex(Sex.valueOf(resultSet.getString(6).toUpperCase()));
                 employee.setDateOfBirthday(resultSet.getDate(7));
                 employee.setAddress(resultSet.getString(8));
-                employee.setEmail(resultSet.getString(9));
+                employee.setTelephone(resultSet.getLong(9));
+                employee.setEmail(resultSet.getString(10));
 
-                post.setPostName(resultSet.getString(10));
+                post.setPostName(resultSet.getString(11));
 
-                department.setDepartmentName(resultSet.getString(11));
+                department.setDepartmentName(resultSet.getString(12));
 
                 employeeList.add(employee);
             }
@@ -185,11 +188,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
     @Override
     public Employee getEmployeeById(Long id) {
         Employee e = new Employee();
+        Department d = new Department();
         ResultSet resultSet = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.SELECT_EMPLOYEE_BY_ID)) {
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                e.setDepartment(d);
                 e.setName(resultSet.getString(1));
                 e.setLastName(resultSet.getString(2));
                 e.setThirdName(resultSet.getString(3));
@@ -199,6 +204,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 e.setAddress(resultSet.getString(7));
                 e.setTelephone(resultSet.getLong(8));
                 e.setEmail(resultSet.getString(9));
+                d.setDepartmentCode(resultSet.getInt(10));
                 e.setId(id);
             }
         } catch (SQLException ex) {

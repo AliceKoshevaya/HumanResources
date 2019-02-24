@@ -13,6 +13,11 @@
 <div class="container">
     <div class="row main-form">
         <form method="post" action="${pageContext.request.contextPath}/editDepartment">
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-danger">
+                    <c:out value="${errorMessage}"></c:out>
+                </div>
+            </c:if>
             <div class="form-group">
                 <label  class="cols-sm-2 control-label">Department Code</label>
                 <div class="cols-sm-10">
@@ -32,8 +37,8 @@
                 </div>
             </div>
             <div class="form-group ">
-                <input type="hidden" name="Id" value="${dep.id}"/>
-                <input type="submit" value="Edit" id="button" class="btn btn-primary btn-lg btn-block login-button />
+                <input type="hidden" name="id" value="${dep.id}"/>
+                <input type="submit" value="Edit" id="button" class="btn btn-outline-primary btn-lg btn-block login-button />
                 <a href="${pageContext.request.contextPath}/">
             </div>
         </form>

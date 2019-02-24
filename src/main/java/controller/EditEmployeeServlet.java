@@ -1,7 +1,10 @@
 package controller;
 
+import db.entity.Department;
 import db.entity.Employee;
+import service.DepartmentService;
 import service.EmployeeService;
+import service.impl.DepartmentServiceImpl;
 import service.impl.EmployeeServiceImpl;
 
 import javax.servlet.RequestDispatcher;
@@ -17,9 +20,12 @@ public class EditEmployeeServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private EmployeeService employeeService = new EmployeeServiceImpl();
+    private DepartmentService departmentService = new DepartmentServiceImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String depId = request.getParameter("idDep");
+        int idDep = Integer.parseInt(depId);
         String name = request.getParameter("name");
         String lastName = request.getParameter("lastName");
         String sExp = request.getParameter("exp");
@@ -31,7 +37,7 @@ public class EditEmployeeServlet extends HttpServlet {
         String sId = request.getParameter("id");
         Long id = Long.valueOf(sId);
         employeeService.updateEmployee(name,lastName,exp,address,telephone,email,id);
-        response.sendRedirect("/");
+        response.sendRedirect("/employeesList?Id="+idDep);
     }
 
     @Override
@@ -40,6 +46,8 @@ public class EditEmployeeServlet extends HttpServlet {
         String stringId = request.getParameter("Id");
         Long idEmp = Long.valueOf(stringId);
         Employee e = employeeService.getEmployeeById(idEmp);
+        int depCode = e.getDepartment().getDepartmentCode();
+        request.setAttribute("dep", depCode);
         request.setAttribute("emp", e);
         RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/editEmployee.jsp");
 

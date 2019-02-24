@@ -18,4 +18,6 @@ public interface EmployeeService {
     public void updateEmployee(String name, String lastName, int exp, String add, Long tel, String email,Long id);
 
     Employee getEmployeeById(Long id);
+
+    List<Employee> getAllEmployees();
 }

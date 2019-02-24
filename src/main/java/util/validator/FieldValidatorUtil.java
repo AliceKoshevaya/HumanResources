@@ -32,20 +32,25 @@ public class FieldValidatorUtil {
     private static final String MESSAGE_NOT_VALID_EMAIL = "Field email contains invalid characters";
     private static final String MESSAGE_NOT_VALID_JOB_CODE = "Field job code contains invalid characters";
 
-    private static final String REGEXP_NAMES = "^[A-Za-zА-Яа-я]+";
+    private static final String REGEXP_NAMES = "^[A-ZА-Я][a-zа-я]+";
     private static final String REGEXP_CODE_EXP = "\\d{2}";
-    private static final String REGEXP_THIRD_NAME = "^[A-ZА-Я][a-zа-я]+";
     private static final String REGEXP_EMAIL = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
     private static final String REGEXP_TELEPHONE = "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$";
+    public static final String MESSAGE_DEPARTMENT_CODE_CONTAINS_ONLY_NUMBERS = "Department code contains only numbers";
 
 
     public static String validateName(String name) {
         return validateField(name, MESSAGE_EMPTY_NAME, REGEXP_NAMES, MESSAGE_NOT_VALID_NAME);
     }
 
-    public static String validateDepCode(int code) {
-        String scode = String.valueOf(code);
-        return validateField(scode, MESSAGE_EMPTY_DEP_CODE, REGEXP_CODE_EXP, MESSAGE_NOT_VALID_DEP_CODE);
+    public static String validateDepCode(String code) {
+        int cod;
+        try {
+            cod = Integer.parseInt(code);
+        } catch (NumberFormatException ex) {
+            return MESSAGE_DEPARTMENT_CODE_CONTAINS_ONLY_NUMBERS;
+        }
+        return validateField(code, MESSAGE_EMPTY_DEP_CODE, REGEXP_CODE_EXP, MESSAGE_NOT_VALID_DEP_CODE);
     }
 
     public static String validateDepName(String depName) {
@@ -55,16 +60,20 @@ public class FieldValidatorUtil {
     public static String validateLastName(String lastName) {
         return validateField(lastName, MESSAGE_EMPTY_LAST_NAME, REGEXP_NAMES, MESSAGE_NOT_VALID_LAST_NAME);
     }
+
     public static String validateThirdName(String thirdName) {
-        return validateField(thirdName, MESSAGE_EMPTY_THIRD_NAME, REGEXP_THIRD_NAME, MESSAGE_NOT_VALID_THIRD_NAME);
+        return validateField(thirdName, MESSAGE_EMPTY_THIRD_NAME, REGEXP_NAMES, MESSAGE_NOT_VALID_THIRD_NAME);
     }
+
     public static String validateExp(int exp) {
         String experience = String.valueOf(exp);
         return validateField(experience, MESSAGE_EMPTY_EXP, REGEXP_CODE_EXP, MESSAGE_NOT_VALID_EXP);
     }
+
     public static String validateAddress(String address) {
         return validateField(address, MESSAGE_EMPTY_ADDRESS, REGEXP_NAMES, MESSAGE_NOT_VALID_ADDRESS);
     }
+
     public static String validateTelephone(Long tel) {
         String telephone = String.valueOf(tel);
         return validateField(telephone, MESSAGE_EMPTY_TELEPHONE, REGEXP_TELEPHONE, MESSAGE_NOT_VALID_TELEPHONE);
@@ -73,6 +82,7 @@ public class FieldValidatorUtil {
     public static String validateEmail(String email) {
         return validateField(email, MESSAGE_EMPTY_EMAIL, REGEXP_EMAIL, MESSAGE_NOT_VALID_EMAIL);
     }
+
     public static String validateJobCode(int code) {
         String jobCode = String.valueOf(code);
         return validateField(jobCode, MESSAGE_EMPTY_JOB_CODE, REGEXP_CODE_EXP, MESSAGE_NOT_VALID_JOB_CODE);

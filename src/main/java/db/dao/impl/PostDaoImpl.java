@@ -43,9 +43,9 @@ public class PostDaoImpl implements PostDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Post post = Post.builder()
-                        .id(resultSet.getLong(1))
-                        .jobCode(resultSet.getInt(2))
-                        .postName(resultSet.getNString(3))
+                        .jobCode(resultSet.getInt(1))
+                        .postName(resultSet.getNString(2))
+                        .salary(resultSet.getDouble(3))
                         .build();
                 postsList.add(post);
             }
@@ -66,9 +66,9 @@ public class PostDaoImpl implements PostDao {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 post = new Post();
-                post.setId(resultSet.getLong(1));
                 post.setJobCode(code);
-                post.setPostName(resultSet.getString(3));
+                post.setPostName(resultSet.getString(2));
+                post.setSalary(resultSet.getDouble(3));
             }
         } catch (SQLException ex) {
             ex.getMessage();

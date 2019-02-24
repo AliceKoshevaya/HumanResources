@@ -15,6 +15,7 @@
     <div class="row main-form">
         <form method="post" action="${pageContext.request.contextPath}/editEmployee">
             <input type="hidden" name="id" value="${emp.id}"/>
+            <input type="hidden" name="idDep" value="${dep}"/>
             <div class="form-group">
                 <label  class="cols-sm-2 control-label">Name</label>
                 <div class="cols-sm-10">
@@ -70,7 +71,7 @@
                 </div>
             </div>
             <div class="form-group ">
-                <input type="submit" value="Edit" id="button" class="btn btn-primary btn-lg btn-block login-button />
+                <input type="submit" value="Edit" id="button" class="btn btn-outline-primary btn-lg btn-block login-button />
                 <a href="${pageContext.request.contextPath}/">
             </div>
         </form>

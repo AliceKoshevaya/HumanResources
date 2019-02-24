@@ -10,7 +10,7 @@
 </head>
 <body>
 <table class="table">
-    <thead class="thead-dark">
+    <thead class="table-info">
     <tr>
         <th scope="col">Department code</th>
         <th scope="col">Department name</th>
@@ -26,35 +26,52 @@
             <td>
                 <form method="get" action="/editDepartment">
                     <input type="hidden" name="Id" value="${item.id}"/>
-                    <input type="submit" class="btn btn-default" value="Edit"/>
+                    <input class="btn btn-success" type="submit" class="btn btn-default" value="Edit"/>
                 </form>
             </td>
             <td>
                 <form method="post" action="/deleteDepartment">
                     <input type="hidden" name="Id" value="${item.id}"/>
-                    <input type="submit" class="btn btn-default" value="Delete"/>
+                    <input class="btn btn-danger" type="submit" class="btn btn-default" value="Delete"/>
                 </form>
             </td>
             <td>
                 <form method="get" action="/employeesList">
                     <input type="hidden" name="Id" value="${item.departmentCode}"/>
-                    <input type="submit" class="btn btn-default" value="List employees"/>
+                    <input class="btn btn-info" type="submit" class="btn btn-default" value="List employees"/>
                 </form>
             </td>
         </tr>
     </c:forEach>
     </thead>
 </table>
-<c:if test="${not empty errorMessage}">
-    <c:out value="${errorMessage}"/>
-    <br>
-</c:if>
-<h2>Add department</h2>
-<form method="POST" action="/addDepartment">
-    <input style="float: left;" type="text" name="DepName" placeholder="Enter department name"/>
-    <input style="float: left;" type="text" name="DepCode" placeholder="Enter department code"/>
-    <input style="float: left;" type="submit" class="btn btn-default"
-           value="Add"/>
-</form>
+<h2 align="center">Add department</h2>
+<div align="center">
+    <form method="POST" action="/addDepartment">
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger">
+                <c:out value="${errorMessage}"></c:out>
+            </div>
+        </c:if>
+        <c:choose>
+            <c:when test="${not empty dName}">
+                <input align="center" type="text" name="DepName" value="${dName}" placeholder="Enter department name"/>
+            </c:when>
+            <c:when test="${empty dName}">
+                <input align="center" type="text" name="DepName" value="" placeholder="Enter department name"/>
+            </c:when>
+        </c:choose>
+        <c:choose>
+            <c:when test="${not empty dCode}">
+                <input align="center" type="text" name="DepCode" value="${dCode}" placeholder="Enter department name"/>
+            </c:when>
+            <c:when test="${empty dCode}">
+                <input align="center" type="text" name="DepCode" value="" placeholder="Enter department code"/>
+            </c:when>
+        </c:choose>
+        <input class="btn btn-primary" type="submit" class="btn btn-default"
+               value="Add"/>
+    </form>
+</div>
 </body>
 </html>

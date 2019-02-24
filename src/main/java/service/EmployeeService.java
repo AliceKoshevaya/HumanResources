@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    public List<Employee> allEmployee(int id);
+    public List<Employee> employeesByDepartment(int id);
 
     public void deleteEmployee(Long id);
 

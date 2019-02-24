@@ -4,6 +4,7 @@ import db.dao.DepartmentDao;
 import db.dao.util.ConnectionManager;
 import db.dao.util.DatabaseRequests;
 import db.entity.Department;
+import db.entity.Employee;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
 //        System.out.println(departmentDao.findAllDepartment());
 //        departmentDao.updateDepartment(8, "update", 7l);
 //        System.out.println(departmentDao.findAllDepartment());
-        System.out.println(departmentDao.getDepartmentById(1l));
+//        System.out.println(departmentDao.getDepartmentById(1l));
         ConnectionManager.closeConnection(connection);
     }
 

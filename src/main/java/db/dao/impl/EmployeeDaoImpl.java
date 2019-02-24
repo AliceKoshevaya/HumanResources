@@ -50,7 +50,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
 //        employeeDao.createEmployee(employee);
 ////        employeeDao.deleteEmployee(1l);
 //        employeeDao.updateEmployee("Martin",30,"London", 347537453847l, "lol@gmail.com", 2l);
-        System.out.println(employeeDao.findEmployeesByDepartment(10));
+        List<Employee> employees = employeeDao.findEmployeesByDepartment(10);
+        for (Employee employee : employees) {
+            if(employee.getEmail().equals("alise888@gmail.com")){
+                System.out.println("No no no");
+            }
+        }
+
         ConnectionManager.closeConnection(connection);
     }
 
@@ -90,8 +96,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.SELECT_EMPLOYEE_BY_DEPARTMENT)) {
             preparedStatement.setInt(1, departmentCode);
             ResultSet resultSet = preparedStatement.executeQuery();
+            Employee employee;
             while (resultSet.next()) {
-                Employee employee = new Employee();
+                employee = new Employee();
                 Post post = new Post();
                 Department department = new Department();
                 employee.setPost(post);

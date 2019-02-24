@@ -1,0 +1,9 @@
+0:0:0:0:0:0:0:1 - - [24/Feb/2019:02:24:12 +0200] "GET / HTTP/1.1" 200 5982 http-bio-8080-exec-2 2176
+0:0:0:0:0:0:0:1 - - [24/Feb/2019:02:24:12 +0200] "GET /style.css HTTP/1.1" 200 5982 http-bio-8080-exec-3 12
+0:0:0:0:0:0:0:1 - - [24/Feb/2019:02:24:13 +0200] "GET /favicon.ico HTTP/1.1" 200 5982 http-bio-8080-exec-4 3
+0:0:0:0:0:0:0:1 - - [24/Feb/2019:02:24:23 +0200] "POST /addDepartment HTTP/1.1" 200 6111 http-bio-8080-exec-5 15
+0:0:0:0:0:0:0:1 - - [24/Feb/2019:02:24:23 +0200] "GET /style.css HTTP/1.1" 200 5982 http-bio-8080-exec-7 4
+0:0:0:0:0:0:0:1 - - [24/Feb/2019:02:24:23 +0200] "GET /favicon.ico HTTP/1.1" 200 5982 http-bio-8080-exec-8 2
+0:0:0:0:0:0:0:1 - - [24/Feb/2019:02:24:35 +0200] "POST /addDepartment HTTP/1.1" 200 6111 http-bio-8080-exec-9 7
+0:0:0:0:0:0:0:1 - - [24/Feb/2019:02:24:35 +0200] "GET /style.css HTTP/1.1" 200 5982 http-bio-8080-exec-9 4
+0:0:0:0:0:0:0:1 - - [24/Feb/2019:02:24:35 +0200] "GET /favicon.ico HTTP/1.1" 200 5982 http-bio-8080-exec-9 4

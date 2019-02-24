@@ -18,7 +18,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private PostDao postDao = PostDaoImpl.getInstance();
     private DepartmentDao departmentDao = DepartmentDaoImpl.getInstance();
 
-    public List<Employee> allEmployee(int id){
+    public List<Employee> employeesByDepartment(int id){
         return employeeDao.findEmployeesByDepartment(id);
     }
 

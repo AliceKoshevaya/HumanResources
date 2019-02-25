@@ -14,6 +14,11 @@
 <div class="container">
     <div class="row main-form">
         <form method="post" action="${pageContext.request.contextPath}/editEmployee">
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-danger">
+                    <c:out value="${errorMessage}"></c:out>
+                </div>
+            </c:if>
             <input type="hidden" name="id" value="${emp.id}"/>
             <input type="hidden" name="idDep" value="${dep}"/>
             <div class="form-group">

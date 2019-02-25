@@ -1,5 +1,6 @@
 package controller;
 
+import db.entity.Employee;
 import service.EmployeeService;
 import service.impl.EmployeeServiceImpl;
 
@@ -18,11 +19,10 @@ public class DeleteEmployeeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String stringId = request.getParameter("Id");
+        String stringId = request.getParameter("id");
         Long id = Long.valueOf(stringId);
-        String scode = request.getParameter("code");
-        Long code = Long.valueOf(scode);
+        Employee employee = employeeService.getEmployeeById(id);
         employeeService.deleteEmployee(id);
-        response.sendRedirect("/employeesList?Id=" + code);
+        response.sendRedirect("/employeesList?Id=" + employee.getDepartment().getDepartmentCode());
     }
 }

@@ -7,6 +7,7 @@ import db.entity.Department;
 import db.entity.Employee;
 import db.entity.Post;
 import db.entity.Sex;
+import db.exception.QueryException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,6 +17,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     private static volatile EmployeeDaoImpl instance;
     private static Connection connection = ConnectionManager.getConnection();
+
+    private static final String ERROR_MESSAGE_UPDATE_EMPLOYEE = "Can't update employee (id = %d)";
+    private static final String ERROR_MESSAGE_SELECT_EMPLOYEE_BY_DEPARTMENT = "Can't select employee by department";
+    private static final String ERROR_MESSAGE_INSERT_EMPLOYEE = "Unable to perform operation insert employee";
+    private static final String ERROR_MESSAGE_SELECT_EMPLOYEE = "Can't select employee(id = %d)";
+    private static final String ERROR_MESSAGE_DELETE_EMPLOYEE = "Can't delete employee(id = %d)";
+    private static final String ERROR_MESSAGE_SELECT_ALL_EMPLOYEE = "Can't select employees";
 
     private EmployeeDaoImpl() {
 
@@ -34,34 +42,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         return localInstance;
     }
 
-    public static void main(String[] args) {
-        EmployeeDaoImpl employeeDao = EmployeeDaoImpl.getInstance();
-        Connection connection = ConnectionManager.getConnection();
-//        System.out.println(employeeDao.findAllEmployees());
-//        Employee employee = new Employee();
-//        employee.setSex(Sex.WOMAN);
-//        employee.setTelephone(233232L);
-//        Department d = new Department();
-//        d.setDepartmentCode(10);
-//        Post post = new Post();
-//        post.setJobCode(4);
-//        employee.setDepartment(d);
-//        employee.setPost(post);
-//        employeeDao.createEmployee(employee);
-////        employeeDao.deleteEmployee(1l);
-//        employeeDao.updateEmployee("Martin",30,"London", 347537453847l, "lol@gmail.com", 2l);
-//        List<Employee> employees = employeeDao.findEmployeesByDepartment(10);
-//        for (Employee employee : employees) {
-//            if(employee.getEmail().equals("alise888@gmail.com")){
-//                System.out.println("No no no");
-//            }
-//        }
-
-        System.out.println(employeeDao.findAllEmployees());
-        ConnectionManager.closeConnection(connection);
-    }
-
-    public List<Employee> findAllEmployees() {
+    public List<Employee> findAllEmployees()  throws QueryException {
         List<Employee> employeeList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.SELECT_ALL_EMPLOYEES)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -88,12 +69,12 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 employeeList.add(employee);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  new QueryException(ERROR_MESSAGE_SELECT_ALL_EMPLOYEE,e);
         }
         return employeeList;
     }
 
-    public List<Employee> findEmployeesByDepartment(int departmentCode) {
+    public List<Employee> findEmployeesByDepartment(int departmentCode)  throws QueryException{
         List<Employee> employeeList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.SELECT_EMPLOYEE_BY_DEPARTMENT)) {
             preparedStatement.setInt(1, departmentCode);
@@ -123,21 +104,22 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 employeeList.add(employee);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new QueryException(ERROR_MESSAGE_SELECT_EMPLOYEE_BY_DEPARTMENT,e);
         }
         return employeeList;
     }
 
-    public void deleteEmployee(Long id) {
+    public void deleteEmployee(Long id)  throws QueryException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.DELETE_EMPLOYEE)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
-            ex.getMessage();
+            throw new QueryException(ERROR_MESSAGE_DELETE_EMPLOYEE, ex);
         }
     }
 
-    public void updateEmployee(String name,String lastName, int exp, String add, Long tel, String email,Long id) {
+    public void updateEmployee(String name,String lastName, int exp, String add, Long tel, String email,Long id)
+            throws QueryException{
         try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.UPDATE_EMPLOYEE)) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
@@ -148,11 +130,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
             preparedStatement.setLong(7, id);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
-            ex.getMessage();
+            throw new QueryException(ERROR_MESSAGE_UPDATE_EMPLOYEE, ex);
         }
     }
 
-    public Long createEmployee(Employee employee) {
+    public Long createEmployee(Employee employee)  throws QueryException{
         Long id = null;
 
         ResultSet generatedKeys = null;
@@ -179,14 +161,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 }
 
             } catch (SQLException ex) {
-                ex.getMessage();
+                throw new QueryException(ERROR_MESSAGE_INSERT_EMPLOYEE, ex);
             }
         }
         return id;
     }
 
     @Override
-    public Employee getEmployeeById(Long id) {
+    public Employee getEmployeeById(Long id) throws QueryException {
         Employee e = new Employee();
         Department d = new Department();
         ResultSet resultSet = null;
@@ -208,7 +190,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 e.setId(id);
             }
         } catch (SQLException ex) {
-            ex.getMessage();
+            throw new QueryException(String.format(ERROR_MESSAGE_SELECT_EMPLOYEE, id), ex);
         }
         return e;
     }

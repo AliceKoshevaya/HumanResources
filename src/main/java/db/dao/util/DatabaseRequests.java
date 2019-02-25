@@ -2,7 +2,7 @@ package db.dao.util;
 
 public class DatabaseRequests {
     public static final String SELECT_ALL_POST = "SELECT p.job_code, p.post_name, p.salary FROM post as p";
-    public static final String SELECT_POST_BY_CODE = "SELECT id,job_code,post_name FROM post where job_code=?";
+    public static final String SELECT_POST_BY_CODE = "SELECT job_code,job_code,post_name FROM post where job_code=?";
     public static final String SELECT_ALL_DEPARTMENTS = "SELECT d.id, d.department_code, d.department_name FROM department AS d";
     public static final String SELECT_ALL_EMPLOYEES = "SELECT e.id, e.employee_name,e.lastname,e.third_name, e.experience,e.sex,e.DOB,e.address,e.telephone,\n" +
             "e.email,d.department_name,p.post_name\n" +

@@ -4,6 +4,7 @@ import db.dao.util.ConnectionManager;
 import db.dao.PostDao;
 import db.dao.util.DatabaseRequests;
 import db.entity.Post;
+import db.exception.QueryException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,6 +15,9 @@ import java.util.List;
 public class PostDaoImpl implements PostDao {
     private static volatile PostDaoImpl instance;
     private static Connection connection = ConnectionManager.getConnection();
+
+    private static final String ERROR_MESSAGE_SELECT_ALL_POST = "Can't find all post";
+    private static final String ERROR_MESSAGE_SELECT_POST_BY_CODE = "Can't select post by (code = %d)";
 
     private PostDaoImpl() {
     }
@@ -31,13 +35,7 @@ public class PostDaoImpl implements PostDao {
         return localInstance;
     }
 
-    public static void main(String[] args) {
-        PostDaoImpl postDao = PostDaoImpl.getInstance();
-        System.out.println(postDao.findAllPost());
-        System.out.println(postDao.getPostByCode(20));
-    }
-
-    public List<Post> findAllPost() {
+    public List<Post> findAllPost()  throws QueryException{
         List<Post> postsList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.SELECT_ALL_POST)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -50,13 +48,13 @@ public class PostDaoImpl implements PostDao {
                 postsList.add(post);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new QueryException(ERROR_MESSAGE_SELECT_ALL_POST, e);
         }
         return postsList;
     }
 
     @Override
-    public Post getPostByCode(int code) {
+    public Post getPostByCode(int code) throws QueryException {
         Post post = null;
         ResultSet resultSet = null;
 
@@ -71,7 +69,7 @@ public class PostDaoImpl implements PostDao {
                 post.setSalary(resultSet.getDouble(3));
             }
         } catch (SQLException ex) {
-            ex.getMessage();
+            throw new QueryException(String.format(ERROR_MESSAGE_SELECT_POST_BY_CODE, code), ex);
         }
         return post;
     }

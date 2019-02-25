@@ -1,6 +1,7 @@
 package controller;
 
 import db.entity.Sex;
+import org.apache.commons.lang3.StringUtils;
 import service.EmployeeService;
 import service.impl.EmployeeServiceImpl;
 import util.EmployeeValidator;
@@ -37,8 +38,18 @@ public class AddEmployeeServlet extends HttpServlet {
         int depCode = Integer.parseInt(depCod);
         String job = request.getParameter("jobCode");
         int jobCode = Integer.parseInt(job);
-        String errorMessage = EmployeeValidator.validate(name,lastName,thirdName,sExp,address,tel,email);
-        if (!errorMessage.isEmpty()) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = null;
+        try {
+            if(sDob != null) {
+                date = simpleDateFormat.parse(sDob);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        String errorMessage = EmployeeValidator.validate(name,lastName,thirdName,sExp,address,tel,email,sqlDate);
+        if (StringUtils.isNotBlank(errorMessage)) {
             request.setAttribute("errorMessage", errorMessage);
             request.setAttribute("eName", name);
             request.setAttribute("eLastName", lastName);
@@ -49,16 +60,6 @@ public class AddEmployeeServlet extends HttpServlet {
             request.setAttribute("eEmail", email);
             request.getRequestDispatcher("/employeesList?Id=" + depCod).forward(request, response);
         }else {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date date = null;
-            try {
-                if(sDob != null) {
-                    date = simpleDateFormat.parse(sDob);
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             int exp = Integer.parseInt(sExp);
             Long telephone = Long.parseLong(tel);
             employeeService.addEmployee(name, lastName, thirdName, exp, sex, sqlDate, address, telephone, email, depCode, jobCode);

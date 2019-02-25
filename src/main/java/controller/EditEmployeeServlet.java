@@ -2,10 +2,13 @@ package controller;
 
 import db.entity.Department;
 import db.entity.Employee;
+import org.apache.commons.lang3.StringUtils;
 import service.DepartmentService;
 import service.EmployeeService;
 import service.impl.DepartmentServiceImpl;
 import service.impl.EmployeeServiceImpl;
+import util.EmployeeValidator;
+import util.validator.FieldValidatorUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,21 +32,27 @@ public class EditEmployeeServlet extends HttpServlet {
         String name = request.getParameter("name");
         String lastName = request.getParameter("lastName");
         String sExp = request.getParameter("exp");
-        int exp = Integer.parseInt(sExp);
         String address = request.getParameter("add");
         String sTelephone = request.getParameter("tel");
-        Long telephone = Long.valueOf(sTelephone);
         String email = request.getParameter("email");
         String sId = request.getParameter("id");
-        Long id = Long.valueOf(sId);
-        employeeService.updateEmployee(name,lastName,exp,address,telephone,email,id);
-        response.sendRedirect("/employeesList?Id="+idDep);
+        String errorMessage =  EmployeeValidator.validateEdit(name,lastName,sExp,address,sTelephone,email);
+        if (StringUtils.isNotBlank(errorMessage)) {
+            request.setAttribute("errorMessage", errorMessage);
+            doGet(request, response);
+        }else {
+            Long id = Long.valueOf(sId);
+            Long telephone = Long.valueOf(sTelephone);
+            int exp = Integer.parseInt(sExp);
+            employeeService.updateEmployee(name, lastName, exp, address, telephone, email, id);
+            response.sendRedirect("/employeesList?Id=" + idDep);
+        }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String stringId = request.getParameter("Id");
+        String stringId = request.getParameter("id");
         Long idEmp = Long.valueOf(stringId);
         Employee e = employeeService.getEmployeeById(idEmp);
         int depCode = e.getDepartment().getDepartmentCode();

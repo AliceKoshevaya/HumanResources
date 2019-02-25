@@ -5,6 +5,7 @@ import db.dao.util.ConnectionManager;
 import db.dao.util.DatabaseRequests;
 import db.entity.Department;
 import db.entity.Employee;
+import db.exception.QueryException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,6 +15,13 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
     private static volatile DepartmentDaoImpl instance;
     private static Connection connection = ConnectionManager.getConnection();
+
+    private static final String ERROR_MESSAGE_UPDATE_DEPARTMENT = "Can't update department (id = %d)";
+    private static final String ERROR_MESSAGE_SELECT_ALL_DEPARTMENT = "Can't select departments";
+    private static final String ERROR_MESSAGE_INSERT_DEPARTMENT = "Unable to perform operation insert department";
+    private static final String ERROR_MESSAGE_SELECT_DEPARTMENT = "Can't select department(id = %d)";
+    private static final String ERROR_MESSAGE_DELETE_DEPARTMENT = "Can't delete department(id = %d)";
+
 
     private DepartmentDaoImpl() {
 
@@ -32,24 +40,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return localInstance;
     }
 
-    public static void main(String[] args) {
-        DepartmentDaoImpl departmentDao = DepartmentDaoImpl.getInstance();
-        Connection connection = ConnectionManager.getConnection();
-//        System.out.println(departmentDao.findAllDepartment());
-//        departmentDao.deleteDepartment( 6l);
-//        System.out.println(departmentDao.findAllDepartment());
-//        Department d = new Department();
-//        d.setDepartmentName("rrr");
-//        d.setDepartmentCode(13);
-//        departmentDao.createDepartment(d);
-//        System.out.println(departmentDao.findAllDepartment());
-//        departmentDao.updateDepartment(8, "update", 7l);
-//        System.out.println(departmentDao.findAllDepartment());
-//        System.out.println(departmentDao.getDepartmentById(1l));
-        ConnectionManager.closeConnection(connection);
-    }
-
-    public List<Department> findAllDepartment() {
+    public List<Department> findAllDepartment() throws QueryException {
         List<Department> departmentList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.SELECT_ALL_DEPARTMENTS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -62,21 +53,21 @@ public class DepartmentDaoImpl implements DepartmentDao {
                 departmentList.add(department);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new QueryException(ERROR_MESSAGE_SELECT_ALL_DEPARTMENT,e);
         }
         return departmentList;
     }
 
-    public void deleteDepartment(Long id) {
+    public void deleteDepartment(Long id) throws QueryException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.DELETE_DEPARTMENT)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
-            ex.getMessage();
+            throw new QueryException(String.format(ERROR_MESSAGE_DELETE_DEPARTMENT, id), ex);
         }
     }
 
-    public Long createDepartment(Department department) {
+    public Long createDepartment(Department department) throws QueryException{
         Long id = null;
 
         ResultSet generatedKeys = null;
@@ -94,24 +85,24 @@ public class DepartmentDaoImpl implements DepartmentDao {
                 }
 
             } catch (SQLException ex) {
-                ex.getMessage();
+                throw new QueryException(String.format(ERROR_MESSAGE_INSERT_DEPARTMENT, id), ex);
             }
         }
         return id;
     }
 
-    public void updateDepartment(int code, String name, Long id) {
+    public void updateDepartment(int code, String name, Long id) throws QueryException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(DatabaseRequests.UPDATE_DEPARTMENT)) {
             preparedStatement.setInt(1, code);
             preparedStatement.setString(2, name);
             preparedStatement.setLong(3, id);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
-            ex.getMessage();
+            throw new QueryException(String.format(ERROR_MESSAGE_UPDATE_DEPARTMENT, id), ex);
         }
     }
 
-    public Department getDepartmentById(Long id) {
+    public Department getDepartmentById(Long id) throws QueryException {
         Department d = new Department();
 
         ResultSet resultSet = null;
@@ -124,13 +115,13 @@ public class DepartmentDaoImpl implements DepartmentDao {
                 d.setDepartmentName(resultSet.getString(3));
             }
         } catch (SQLException ex) {
-            ex.getMessage();
+            throw new QueryException(String.format(ERROR_MESSAGE_SELECT_DEPARTMENT, id), ex);
         }
         return d;
     }
 
     @Override
-    public Department getDepartmentByCode(int code) {
+    public Department getDepartmentByCode(int code) throws QueryException {
         Department d = null;
         ResultSet resultSet = null;
 

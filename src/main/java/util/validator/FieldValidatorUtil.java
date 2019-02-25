@@ -33,7 +33,8 @@ public class FieldValidatorUtil {
     private static final String MESSAGE_NOT_VALID_JOB_CODE = "Field job code contains invalid characters";
 
     private static final String REGEXP_NAMES = "^[A-ZА-Я][a-zа-я]+";
-    private static final String REGEXP_CODE_EXP = "\\d{2}";
+    private static final String REGEXP_CODE = "\\d{2}";
+    private static final String REGEXP_EXP = "\\d{1,2}";
     private static final String REGEXP_EMAIL = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
     private static final String REGEXP_TELEPHONE = "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$";
     public static final String MESSAGE_DEPARTMENT_CODE_CONTAINS_ONLY_NUMBERS = "Department code contains only numbers";
@@ -50,7 +51,7 @@ public class FieldValidatorUtil {
         } catch (NumberFormatException ex) {
             return MESSAGE_DEPARTMENT_CODE_CONTAINS_ONLY_NUMBERS;
         }
-        return validateField(code, MESSAGE_EMPTY_DEP_CODE, REGEXP_CODE_EXP, MESSAGE_NOT_VALID_DEP_CODE);
+        return validateField(code, MESSAGE_EMPTY_DEP_CODE, REGEXP_CODE, MESSAGE_NOT_VALID_DEP_CODE);
     }
 
     public static String validateDepName(String depName) {
@@ -67,7 +68,7 @@ public class FieldValidatorUtil {
 
     public static String validateExp(int exp) {
         String experience = String.valueOf(exp);
-        return validateField(experience, MESSAGE_EMPTY_EXP, REGEXP_CODE_EXP, MESSAGE_NOT_VALID_EXP);
+        return validateField(experience, MESSAGE_EMPTY_EXP, REGEXP_EXP, MESSAGE_NOT_VALID_EXP);
     }
 
     public static String validateAddress(String address) {
@@ -85,7 +86,7 @@ public class FieldValidatorUtil {
 
     public static String validateJobCode(int code) {
         String jobCode = String.valueOf(code);
-        return validateField(jobCode, MESSAGE_EMPTY_JOB_CODE, REGEXP_CODE_EXP, MESSAGE_NOT_VALID_JOB_CODE);
+        return validateField(jobCode, MESSAGE_EMPTY_JOB_CODE, REGEXP_CODE, MESSAGE_NOT_VALID_JOB_CODE);
     }
 
     private static String validateField(String field,
